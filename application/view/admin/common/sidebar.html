@@ -1,0 +1,54 @@
+<div class="sidebar" data-color="green" data-image="./assets/img/sidebar-1.jpg" style="width: 90px;">
+    <div class="logo">
+        <a href="{:url('index')}" class="simple-text">
+            <img src="__STATIC__/image/suez_small_shape.jpg" height="50px">
+        </a>
+    </div>
+    <div class="sidebar-wrapper ps-container ps-theme-default">
+        <ul class="nav" id="Nav">
+            <li>
+                <a href="{:url('index')}" title="PDF List">
+                    <i class="iconfont icon-filepdf"></i>
+                </a>
+            </li>
+            <!--
+            <li>
+                <a href="__STATIC__/history_map" title="History Map">
+                    <i class="iconfont icon-map-location"></i>
+                </a>
+            </li>
+            <li>
+                <a href="__STATIC__/history_line" title="History Line">
+                    <i class="iconfont icon-chart"></i>
+                </a>
+            </li>
+            <li><a href="__STATIC__/print_log" title="User Print Log"><i class="iconfont icon-caidaniconwodehui"></i></a></li>
+            <li><a href="__STATIC__/query_list" title="Query List"><i class="iconfont icon-line"></i></a></li>
+            <li><a href="__STATIC__/file_list" title="Upload Files"><i class="iconfont icon-upload1"></i></a></li>
+            -->
+            <li><a href="{:url('user_list')}" title="User List"><i class="iconfont icon-ico-user-group-off"></i></a></li>
+            <li><a href="{:url('config')}" title="Config"><i class="iconfont icon-config"></i></a></li>
+        </ul>
+        <div class="ps-scrollbar-x-rail" style="left: 0; bottom: 0;">
+            <div class="ps-scrollbar-x" tabindex="0" style="left: 0; width: 0;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0; right: 0;">
+            <div class="ps-scrollbar-y" tabindex="0" style="top: 0; height: 0;"></div>
+        </div>
+    </div>
+    <div class="sidebar-background"></div>
+</div>
+<script>
+    // sidebar highlight
+    (function() {
+        var nav = document.getElementById("Nav");
+        var a = nav.querySelectorAll("a");
+        for (var i = 0; i <a.length; i++) {
+            var el = a[i];
+            if (el.href === window.location.href) {
+                el.parentNode.classList.add("active");
+                break;
+            }
+        }
+    })();
+</script>

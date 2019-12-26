@@ -1,0 +1,192 @@
+{include file="admin/common/header" title="编辑用户" /}
+<style>
+    .main-panel>.content {
+        margin-top: 30px;
+    }
+    .form-group {margin: 10px 0 0;}
+    .btn.btn-just-icon, .navbar .navbar-nav>li>a.btn.btn-just-icon {font-size: 15px;}
+
+    @media (min-width: 992px) {
+        .navbar-form {
+            margin: 0;
+        }
+    }
+    .card {margin-top: 10px;}
+
+    .sidebar .animation-transition-general, .sidebar .nav li>a, .sidebar .off-canvas-sidebar .nav li>a {
+        min-height: 50px;
+        max-width: 60px;
+    }
+    .sidebar, sidebar-wrapper {max-width: 90px;}
+    .sidebar .sidebar-wrapper, .off-canvas-sidebar .sidebar-wrapper {width: 90px;}
+    .sidebar[data-color="green"] .nav li.active a, .off-canvas-sidebar[data-color="green"] .nav li.active a {
+        min-height: 50px;
+        max-width: 60px;
+    }
+    .sidebar-wrapper .nav>li {min-height: 50px;}
+    .main-panel {width: calc(100% - 90px);}
+    .card {max-width: 500px;text-align: left;}
+    .row {margin: 0;}
+    #btnRole {min-width: 180px;}
+    #language {margin-right: 5px;}
+</style>
+<body>
+<div class="wrapper">
+    {include file="admin/common/sidebar" /}
+    <div class="main-panel ps-container ps-theme-default ps-active-y">
+        {include file="admin/common/navbar" title="编辑产品" /}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row" style="text-align:center">
+                    <div class="card">
+                        <div class="card-content table-responsive">
+                            <!--<input type="hidden" name="product_id" value="new">-->
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">批号</label>
+                                    <input type="text" id="batch_number" name="batch_number" 
+                                           class="form-control"
+                                           value="{$product.batch_number}"
+                                           title="批号" />
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">6字原代码</label>
+                                    <input type="text"
+                                           id="mm6"
+                                           name="mm6" class="form-control"
+                                           value="{$product.mm6}" title="6字原代码">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">7字原代码</label>
+                                    <input type="text"
+                                           id="mm7"
+                                           name="mm7" class="form-control"
+                                           value="{$product.mm7}"
+                                           title="7字原代码">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                    <div class="dropdown">
+                                        <span style="color:gray;margin-right:10px;">语言</span>
+                                        <button id="btnRole" class="btn btn-simple dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span id="language">{$product.language}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a id="langEnglish">English</a></li>
+                                            <li><a id="langChinese">Chinese</a></li>
+                                            <li><a id="langVietnam">Vietnam</a></li>
+                                            <li><a id="langPhilippines">Philippines</a></li>
+                                            <li><a id="langThailand">Thailand</a></li>
+                                            <li><a id="langSingapore">Singapore</a></li>
+                                        </ul>
+                                    </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">重量</label>
+                                    <input type="number" name="weight"
+                                           id="weight"
+                                           class="form-control"
+                                           value="{$product.weight}"
+                                           title="重量">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: center">
+                                <button id="btnSubmit" class="btn btn-success">
+                                    Save<div class="ripple-container"></div>
+                                </button>
+                                &nbsp;&nbsp;
+                                <a class="pull-right" style="position:absolute;right:0;margin-right:30px;margin-top:
+                                30px" href="{:url('index')}">回到产品列表</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/wow.min.js"></script>
+<script src="__STATIC__/js/material.min.js"></script>
+<script src="__STATIC__/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="__STATIC__/js/material-dashboard.js"></script>
+<script src="__STATIC__/js/bootstrap-notify.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+
+<script>
+    // dropdown
+    var a = ["English", "Chinese", "Vietnam", "Philippines", "Thailand", "Singapore"];
+    a.forEach(function(c) {
+        var $text = $("#language");
+        $("#lang"+c).on("click", function() {
+            $text.text(c)
+        });
+    });
+
+    $('#btnSubmit').click(function(){
+        var key = Yuny.getUrlParam('key');
+        var _product_id = 0;
+        var batchNumber = $("#batch_number").val().trim();
+        var mm6 = $("#mm6").val().trim();
+        var mm7 = $("#mm7").val().trim();
+        var lang = $("#language").text().trim();
+        var weight = $("#weight").val();
+
+        if(key === 'new') {
+            if(batchNumber === '') {
+                Yuny.notify('danger','"产品序列号"不能为空');
+                return;
+            }
+            if(mm6 === '') {
+                Yuny.notify('danger','"6字原代码"不能为空');
+                return;
+            }
+            if(mm7 === '') {
+                Yuny.notify('danger','"7字原代码"不能为空');
+                return;
+            }
+            if (weight===0 || weight ==="" || !weight) {
+                Yuny.notify('danger','"重量"不能为空');
+                return
+            }
+        } else {
+            _product_id = key;
+        }
+
+       // Yuny.notify('danger','"Password" is different with "Confirm Password"');
+
+        // post
+        $.post("{:url('product_edit')}", {
+            product_id: _product_id,
+            batch_number: batchNumber,
+            mm6: mm6,
+            mm7: mm7,
+            language:lang,
+            weight: weight
+        }, function(resp) {
+            if(resp.code === 200) {
+                Yuny.notify('success', '保存成功');
+                window.location = "{:url('admin/index')}";
+            } else {
+                Yuny.notify('danger', resp.msg);
+            }
+        })
+    })
+
+
+</script>
+</body>
+</html>

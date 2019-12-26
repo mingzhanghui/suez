@@ -1,0 +1,27 @@
+<nav class="navbar navbar-transparent navbar-absolute">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:;">[title]</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{:url('user_edit')}">
+                        <i class="link_icon iconfont icon-LC_icon_user_line_2"></i> {$loginUser.account}
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('logout')}">
+                        <i class="link_icon iconfont icon-loginout"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

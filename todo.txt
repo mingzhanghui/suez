@@ -1,0 +1,5 @@
+1. jwt
+2. php qrcode
+https://www.jb51.net/article/136418.htm
+
+http://query.suezwts.cn/qr_sign/?key=caaTWpVMk1Ua3pNekV5TXkwNExVTm9hVzVsYzJVPQaca

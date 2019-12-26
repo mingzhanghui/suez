@@ -1,0 +1,451 @@
+{include file="admin/common/header" title="产品列表" /}
+<body>
+<style>
+    .navbar-form .form-control.dtpicker {
+        width: 120px;
+        text-align: center;
+    }
+    #search {
+        width: 120px;
+    }
+    .checkbox .checkbox-material:before {
+        margin-top: -25px;
+    }
+</style>
+<div class="wrapper">
+    {include file="admin/common/sidebar" /}
+
+    <div class="main-panel ps-container ps-theme-default ps-active-y">
+        {include file="admin/common/navbar" title="产品列表" /}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="navbar-form" role="search">
+                        <input id="search" type="text" name="batch_num" class="form-control" value=""
+                               placeholder="产品序列号">
+                        <input id="import_start" type="text" name="import_start" class="form-control dtpicker" value="" placeholder="Import Start Time">
+                        <input id="import_end" type="text" name="import_end" class="form-control dtpicker" value="" placeholder="Import End Time">
+                        <button id="btn_submit" class="btn btn-white btn-round btn-just-icon">
+                            <i class="iconfont icon-search"></i>
+                            <div class="ripple-container"></div>
+                        </button>
+                        <a id="btn_reset" class="btn btn-white btn-round btn-just-icon" href="javascript:;"
+                           onclick="window.location.reload()">
+                            <i class="iconfont icon-Reset"></i>
+                            <div class="ripple-container"></div>
+                        </a>
+                        <!--
+                        <div class="checkbox">
+                            <label>
+                                <input id="checkNotPrint" type="checkbox" name="optionsCheckboxes">
+                                Not Print
+                            </label>
+                        </div>
+                        <button id="btn_upload" class="btn btn-success fileinput-button pull-right">
+                            <i class="btn_icon iconfont icon-upload1"></i>Upload
+                            <div class="ripple-container"></div>
+                            <input id="fileupload" type="file" name="files[]"  multiple="multiple">
+                        </button>
+-->
+                        <a id="btn_obtain" class="btn btn-success pull-right" href="product_edit?key=new">
+                            <i class="glyphicon glyphicon-plus"></i>添加产品<div class="ripple-container"></div>
+                        </a>
+
+                        <!--设置page size-->
+               <div class="dropdown pull-right">
+                    <button id="btnRole" class="btn dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span id="textItemAmount">20</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a id="item10" class="item_amount_item">10</a></li>
+                        <li><a id="item20" class="item_amount_item">20</a></li>
+                        <li><a id="item50" class="item_amount_item">50</a></li>
+                        <li><a id="item80" class="item_amount_item">80</a></li>
+                        <li><a id="item100" class="item_amount_item">100</a></li>
+                    </ul>
+                </div>
+
+                    </div>
+                    <div class="col-xs-4 upload_zip_item pull-right">
+                        <div id="progress_zip" class="progress" style="display: none">
+                            <div class="progress-bar progress-bar-success"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 upload_zip_item pull-right" style="text-align: right">
+                        <div id="result_zip">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-content table-responsive">
+                                <ul class="pagination" role="navigation">
+
+                                    <li class="page-item disabled" aria-disabled="true" aria-label="&laquo; Previous">
+                                        <span class="page-link" aria-hidden="true">&lsaquo;</span>
+                                    </li>
+
+                                    <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=2">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=3">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=4">4</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=5">5</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=6">6</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=7">7</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=8">8</a></li>
+
+                                    <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
+
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=211">211</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=212">212</a></li>
+
+
+                                    <li class="page-item">
+                                        <a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=2" rel="next" aria-label="Next &raquo;">&rsaquo;</a>
+                                    </li>
+                                </ul>
+
+                                <table class="table text-center">
+                                    <thead class="text-success">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>产品序列号</th>
+                                        <th>6字原代码</th>
+                                        <th>7字原代码</th>
+                                        <th>语言</th>
+                                        <th>重量</th>
+                                        <th>添加时间</th>
+                                        <!--<th>Printed Count</th>-->
+                                        <!--<th>Printing Count</th>-->
+                                        <!--<th>Print</th>-->
+                                        <th>编辑</th>
+                                    </tr></thead>
+                                    <tbody>
+                                    {volist name="products" id="vo"}
+                                    <tr>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.batch_number}</td>
+                                        <td>{$vo.mm6}</td>
+                                        <td>{$vo.mm7}</td>
+                                        <td>{$vo.language}</td>
+                                        <td>{$vo.weight}</td>
+                                        <td>{$vo.created_at}</td>
+                                        <td data-itemId="{$vo.id}">
+                                            <a class="btn_edit_item btn btn-success btn-sm"
+                                               href="product_edit.html?key={$vo.id}">编辑</a>
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    <!--
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2561935103</td>
+                                        <td>6103169</td>
+                                        <td>7160685</td>
+                                        <td>Chinese</td>
+                                        <td>25</td>
+                                        <td>2019-12-18 14:01</td>
+                                        <td>0</td>
+                                        <td><input class="printing_count" type="text" value="1" style="text-align: center; width: 50px;"></td>
+                                        <td><button class="btn_print btn btn-info btn-sm" pdf_id="4247">print</button></td>
+                                        <td><button class="btn_preview btn btn-success btn-sm" pdf_url="__STATIC__/pdfs/2561935103_0.pdf">preview</button></td>
+                                    </tr>
+                                    -->
+
+                                    </tbody>
+                                </table>
+                                <ul class="pagination" role="navigation">
+
+                                    <li class="page-item disabled" aria-disabled="true" aria-label="&laquo; Previous">
+                                        <span class="page-link" aria-hidden="true">&lsaquo;</span>
+                                    </li>
+
+
+
+
+
+                                    <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="index?not_print=0&amp;item_amount=20&amp;page=2">2
+                                    </a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=3">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=4">4</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=5">5</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=6">6</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=7">7</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=8">8</a></li>
+
+                                    <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
+
+
+
+
+
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=211">211</a></li>
+                                    <li class="page-item"><a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=212">212</a></li>
+
+
+                                    <li class="page-item">
+                                        <a class="page-link" href="__STATIC__/pdf_list?not_print=0&amp;item_amount=20&amp;page=2" rel="next" aria-label="Next &raquo;">&rsaquo;</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dlgConfirm" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+                        </div>
+                        <div class="modal-body">
+                            Continue to print?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                            <button id="btnDlgOk" type="button" class="btn btn-success">Print</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <iframe style="display:none" id="printIframe"></iframe>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/wow.min.js"></script>
+<script src="__STATIC__/js/material.min.js"></script>
+<script src="__STATIC__/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="__STATIC__/js/material-dashboard.js"></script>
+<script src="__STATIC__/js/bootstrap-notify.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+
+<script src="__STATIC__/js/moment.min.js"></script>
+<script src="__STATIC__/js/zh-cn.js"></script>
+<script src="__STATIC__/js/bootstrap-material-datetimepicker.js"></script>
+<script src="__STATIC__/js/jquery.ui.widget.js"></script>
+<script src="__STATIC__/jsload-image.all.min.js"></script>
+<script src="__STATIC__/jscanvas-to-blob.min.js"></script>
+<script src="__STATIC__/jsjquery.iframe-transport.js"></script>
+<script src="__STATIC__/jsjquery.fileupload.js"></script>
+<script src="__STATIC__/jsjquery.fileupload-process.js"></script>
+<script src="__STATIC__/jsjquery.fileupload-image.js"></script>
+<script src="__STATIC__/jsjquery.fileupload-validate.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+<script>
+    $('.dtpicker').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD',time: false,lang : 'zh-cn'});
+
+    var current_btn_print = null;
+
+    $('.btn_print').click(function(){
+        $('#dlgConfirm').modal('show');
+
+        current_btn_print = this;
+    })
+
+    $('.btn_preview').click(function(){
+        window.open($(this).attr('pdf_url'));
+    })
+
+    document.getElementById('printIframe').onload = function() {
+        setTimeout(function(){
+            $('#printIframe')[0].contentWindow.print();
+        },100);
+    }
+
+    $('#btnDlgOk').click(function(){
+        $('#dlgConfirm').modal('hide');
+
+        var _pdf_id = $(current_btn_print).attr('pdf_id');
+        var _printing_count = $('.printing_count',$(current_btn_print).parent().parent()).val();
+        var print_count = $(current_btn_print).parent().prev().prev();
+        print_count.html(Number(print_count.text()) + Number(_printing_count));
+        if(_printing_count <= 0)
+        {
+            Yuny.notify('danger','Print count is wrong');
+            return;
+        }
+
+        $.post($('#url_pdf_print').val(),{pdf_id: _pdf_id, print_count: _printing_count},function(ret){
+            ret = JSON.parse(ret);
+            if(ret.return != 0)
+            {
+                Yuny.notify('danger',ret.error);
+                return;
+            }
+
+            if(Yuny.isChrome())
+            {
+                $('#printIframe').attr('src', ret.pdf_url);
+            }
+            else
+            {
+                window.open(ret.pdf_url);
+            }
+        })
+    })
+
+    $('#btn_submit').click(function(){
+        var _param = "?search=" + $('#search').val() + "&import_start=" + $('#import_start').val() + "&import_end=" + $('#import_end').val() + "&item_amount=" + $('#textItemAmount').text();
+        if($("#checkNotPrint").prop("checked"))
+        {
+            _param += "&not_print=1";
+        }
+        window.location = "__STATIC__/pdf_list" + _param;
+    })
+
+    $('#btn_reset').click(function(){
+        var _param = "?item_amount=" + $('#textItemAmount').text();
+        window.location = '__STATIC__/pdf_list' + _param;
+    })
+
+    $('#btn_obtain').click(function(){
+        $.get("__STATIC__/obtain_pdf_manual",function(ret){
+            ret = JSON.parse(ret);
+            if(ret.return == 0)
+            {
+                Yuny.notify('success','Obtain pdf success');
+                window.location.reload();
+            }
+            else
+            {
+                Yuny.notify('danger','Obtain pdf failed: ' + ret.error);
+            }
+        })
+        return false;
+    })
+
+    // upload
+    $('#fileupload').fileupload({
+        url: '__STATIC__/upload_pdf',
+        dataType: 'json',
+        autoUpload: true,
+        acceptFileTypes: /(\.|\/)(pdf)$/i,
+        maxFileSize: 52000000,
+        singleFileUploads: false,
+    }).on('fileuploadadd', function (e, data) {
+        $('#progress_zip').show();
+        $('#result_zip').html('');
+        $('#div_error_submit').text('');
+        $('#result_zip').removeClass('uploaded');
+        $('#result_zip').removeClass('uploading');
+        data.context = $('<div/>').appendTo('#result_zip');
+        $.each(data.files, function (index, file) {
+            var node = $('<p/>')
+                .append($('<span/>').text(file.name)).append($('<span/>')
+                    .text('(上传中...)').attr('class','upload_status uploading'));
+            node.appendTo(data.context);
+        });
+    }).on('fileuploadprocessalways', function (e, data) {
+        var index = data.index,
+            file = data.files[index],
+            node = $(data.context.children()[index]);
+        if (file.preview) {
+            node
+                .prepend('<br>')
+                .prepend(file.preview);
+        }
+        if (file.error) {
+            node.append('<br>')
+                .append($('<span class="text-danger"/>').text(file.error))
+                .find('.upload_status').text('(上传失败)').removeClass('uploading');
+
+            $('#progress_zip').hide();
+            $('#progress_zip .progress-bar').css('width', '0%');
+        }
+        if (index + 1 === data.files.length) {
+            data.context.find('button')
+                .text('Upload')
+                .prop('disabled', !!data.files.error);
+        }
+    }).on('fileuploadprogressall', function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress_zip .progress-bar').css(
+            'width',
+            progress + '%'
+        );
+    }).on('fileuploaddone', function (e, data) {
+        $.each(data.result.files, function (index, file) {
+            if (file.md5) {
+                var input = $('<input type="hidden" id="zip_md5" name="zip_md5">')
+                    .prop('value', file.md5);
+                $(data.context.children()[index])
+                    .append(input);
+                $(data.context.children()[index]).find('.upload_status').text('(已上传)').removeClass('uploading');
+                window.location.reload();
+            } else if (file.error) {
+                var error = $('<span class="text-danger"/>').text(file.error);
+                $(data.context.children()[index])
+                    .append('<br>')
+                    .append(error)
+                    .find('.upload_status').text('(上传失败)').removeClass('uploading');
+            }
+        });
+
+        $('#progress_zip').hide();
+        $('#progress_zip .progress-bar').css('width', '0%');
+    }).on('fileuploadfail', function (e, data) {
+        $.each(data.files, function (index) {
+            var error = $('<span class="text-danger"/>').text('文件上传失败。');
+            $(data.context.children()[index])
+                .append('<br>')
+                .append(error)
+                .find('.upload_status').text('(上传失败)').removeClass('uploading');
+        });
+        $('#progress_zip').hide();
+        $('#progress_zip .progress-bar').css('width', '0%');
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+    $('.item_amount_item').click(function(){
+        $('#textItemAmount').text($(this).text());
+
+        var _param = "?search=" + $('#search').val() + "&import_start=" + $('#import_start').val() + "&import_end=" + $('#import_end').val() + "&item_amount=" + $('#textItemAmount').text();
+
+        if($("#checkNotPrint").prop("checked"))
+        {
+            _param += "&not_print=1";
+        }
+        window.location = "__STATIC__/pdf_list" + _param;
+    })
+
+    $('#checkNotPrint').click(function () {
+        $(this).blur();
+        $(this).focus();
+    })
+
+    $('#checkNotPrint').change(function(){
+        var _param = "?search=" + $('#search').val() + "&import_start=" + $('#import_start').val() + "&import_end=" + $('#import_end').val() + "&item_amount=" + $('#textItemAmount').text();
+
+        if($("#checkNotPrint").prop("checked"))
+        {
+            _param += "&not_print=1";
+        }
+        window.location = "__STATIC__/pdf_list" + _param;
+    })
+
+    $('#search').keyup(function(e){
+        if(e.keyCode != 13)
+            return;
+
+        var _param = "?search=" + $('#search').val() + "&import_start=" + $('#import_start').val() + "&import_end=" + $('#import_end').val() + "&item_amount=" + $('#textItemAmount').text();
+
+        if($("#checkNotPrint").prop("checked"))
+        {
+            _param += "&not_print=1";
+        }
+        window.location = "__STATIC__/pdf_list" + _param;
+    })
+</script>
+</body>
+</html>

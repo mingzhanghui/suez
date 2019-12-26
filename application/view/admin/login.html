@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Suez MSDS Anti-Fake System">
+    <title>Login - Suez MSDS Anti-Fake System</title>
+    <link href="__STATIC__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/material-icons.min.css" rel="stylesheet">
+
+    <link href="__STATIC__/css/material-dashboard.css" rel="stylesheet">
+    <link href="__STATIC__/css/iconfont.css" rel="stylesheet">
+    <link href="__STATIC__/css/app.css" rel="stylesheet">
+    <style>
+        body{
+            background-color: white;
+        }
+    </style>
+
+    <link href="__STATIC__/css/bootoast.css" rel="stylesheet" type="text/css">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: -webkit-box;
+            -ms-flex-align: center;
+            -ms-flex-pack: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+        }
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .nowrap {
+            white-space:nowrap;
+        }
+        .login_title {
+            font-size: 25px;
+            color: gray;
+        }
+
+        .margin-t20 {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 480px), (max-width: 767px)
+        {
+            .form-group .form-control {
+                width: 100%;
+            }
+        }
+
+        .form-group {
+            text-align: left;
+        }
+    </style>
+
+    <link rel="icon" href="__STATIC__/favicon.ico">
+</head>
+<body>
+<div class="form-signin text-center">
+    <img class="" src="__STATIC__/image/suez_small.jpg" alt="" height="72">
+    <h2 class="nowrap login_title">MSDS Anti-Fake System</h2>
+    <h3 class="h3 mb-3 font-weight-normal margin-t20">Login</h3>
+    <div class="form-group label-floating is-empty">
+        <label class="control-label">Login Name</label>
+        <input type="password" style="display: none;"/>
+        <input id="inputName" class="form-control" autocomplete="new-password">
+        <span class="material-input"></span>
+    </div>
+    <div class="form-group label-floating is-empty">
+        <label class="control-label">Password</label>
+        <input type="password" style="display: none;"/>
+        <input id="inputPassword" type="password" class="form-control" autocomplete="new-password">
+        <span class="material-input"></span>
+    </div>
+    <button id="btn_submit" class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/wow.min.js"></script>
+<script src="__STATIC__/js/material.min.js"></script>
+<script src="__STATIC__/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="__STATIC__/js/material-dashboard.js"></script>
+<script src="__STATIC__/js/bootstrap-notify.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+
+<script src="__STATIC__/js/bootoast.js"></script>
+<script type="text/javascript">
+    $('#inputName').focus();
+
+    $('#btn_submit').click(function(){
+        login();
+    });
+
+    $('#inputPassword').keyup(function(event){
+        if(event.keyCode === 13) {
+            login();
+        }
+    });
+
+    function login() {
+        $.post("/admin/xhrLogin", {
+                login_name: $('#inputName').val(),
+                pwd: $('#inputPassword').val()
+            }, function(resp) {
+            if(resp.code === 200) {
+                window.location.href = resp.data;
+            } else {
+                Yuny.notify('danger', resp.msg);
+            }
+        })
+    }
+</script>
+</body>
+</html>

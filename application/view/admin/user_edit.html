@@ -1,0 +1,170 @@
+{include file="admin/common/header" title="编辑用户" /}
+<style>
+    .main-panel>.content {
+        margin-top: 30px;
+    }
+    .form-group {margin: 10px 0 0;}
+    .btn.btn-just-icon, .navbar .navbar-nav>li>a.btn.btn-just-icon {font-size: 15px;}
+
+    @media (min-width: 992px) {
+        .navbar-form {
+            margin: 0;
+        }
+    }
+    .card {margin-top: 10px;}
+
+    .sidebar .animation-transition-general, .sidebar .nav li>a, .sidebar .off-canvas-sidebar .nav li>a {
+        min-height: 50px;
+        max-width: 60px;
+    }
+    .sidebar, sidebar-wrapper {max-width: 90px;}
+    .sidebar .sidebar-wrapper, .off-canvas-sidebar .sidebar-wrapper {width: 90px;}
+    .sidebar[data-color="green"] .nav li.active a, .off-canvas-sidebar[data-color="green"] .nav li.active a {
+        min-height: 50px;
+        max-width: 60px;
+    }
+    .sidebar-wrapper .nav>li {min-height: 50px;}
+    .main-panel {width: calc(100% - 90px);}
+    .card {max-width: 500px;text-align: left;}
+    .row {margin: 0;}
+    #btnRole {min-width: 180px;}
+    #textRole {margin-right: 5px;}
+</style>
+<body>
+<div class="wrapper">
+    {include file="admin/common/sidebar" /}
+    <div class="main-panel ps-container ps-theme-default ps-active-y">
+        {include file="admin/common/navbar" title="编辑用户" /}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row" style="text-align:center">
+                    <div class="card">
+                        <div class="card-content table-responsive">
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">登录账号</label>
+                                    {if condition="($key != 'new')"}
+                                    <input name="login_name" class="form-control" disabled
+                                           value="{$user.account}" />
+                                    {else /}
+                                    <input class="form-control" name="login_name" value="{$user.account}" />
+                                    {/if}
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+                            {if condition="($key != 'new')"}
+                            <div class="row">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">原始密码</label>
+                                    <input type="password" style="display: none;"/>
+                                    <input id="inputOriginPassword" type="password" class="form-control" autocomplete="new-password">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+                            {/if}
+                            <div class="row">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">新密码</label>
+                                    <input type="password" style="display: none;"/>
+                                    <input id="inputPassword" type="password" class="form-control" autocomplete="new-password">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label">确认密码</label>
+                                    <input type="password" style="display: none;"/>
+                                    <input id="inputPasswordConfirm" type="password" class="form-control" autocomplete="new-password">
+                                    <span class="material-input"></span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="text-align: center">
+                                <button id="btnSubmit" class="btn btn-success">Save<div class="ripple-container"></div></button>&nbsp;&nbsp;
+                                <a class="pull-right" style="position:absolute;right:0;margin-right:30px;margin-top:
+                                30px" href="{:url('user_list')}">回到用户列表</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/wow.min.js"></script>
+<script src="__STATIC__/js/material.min.js"></script>
+<script src="__STATIC__/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="__STATIC__/js/material-dashboard.js"></script>
+<script src="__STATIC__/js/bootstrap-notify.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+
+<script>
+    $('#roleAdmin').click(function(){
+        $('#textRole').text('Administrator');
+    })
+
+    $('#roleEmployee').click(function(){
+        $('#textRole').text('Employee');
+    });
+
+    $('#btnSubmit').click(function(){
+        var key = Yuny.getUrlParam('key');
+        var _user_id = 0;
+        var $op = $("#inputOriginPassword");
+        var _old_password;
+        if ($op.val()) {
+           _old_password = $op.val().trim();
+        } else {
+            _old_password = "";
+        }
+
+        var _login_name = $("input[name='login_name']").val().trim();
+        var _pwd = $('#inputPassword').val().trim();
+        var _pwdConfirm = $('#inputPasswordConfirm').val().trim();
+        // current user
+        if(key === '') {
+            _user_id = "1";
+        }
+        // new
+        else if(key == 'new') {
+            if(_login_name == '') {
+                Yuny.notify('danger','"Login Name" cannot be empty');
+                return;
+            }
+
+            if(_pwd == '') {
+                Yuny.notify('danger','"Password" cannot be empty');
+                return;
+            }
+        }
+        // edit user
+        else {
+            _user_id = key;
+        }
+
+        if(_pwd != '' && _pwd != _pwdConfirm) {
+            Yuny.notify('danger','"Password" is different with "Confirm Password"');
+            return;
+        }
+
+        // post
+        $.post("{:url('user_edit')}", {
+            user_id: _user_id,
+            login_name: _login_name,
+            original_password: _old_password,
+            password: _pwd
+        }, function(resp) {
+            if(resp.code === 200) {
+                Yuny.notify('success', 'Save success');
+                window.location = "{:url('user_list')}";
+            } else {
+                Yuny.notify('danger', resp.msg);
+            }
+        })
+    })
+</script>
+</body>
+</html>

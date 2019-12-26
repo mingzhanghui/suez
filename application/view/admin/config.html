@@ -1,0 +1,195 @@
+{include file="admin/common/header" title="系统配置" /}
+<body>
+<style>
+    .main-panel>.content {
+        margin-top: 30px;
+    }
+    .form-group {
+        margin: 10px 0 0;
+    }
+    .btn.btn-just-icon, .navbar .navbar-nav>li>a.btn.btn-just-icon {
+        font-size: 15px;
+    }
+
+    @media (min-width: 992px) {
+        .navbar-form {
+            margin: 0;
+        }
+    }
+
+    .card {
+        margin-top: 10px;
+    }
+
+    .sidebar .animation-transition-general, .sidebar .nav li>a, .sidebar .off-canvas-sidebar .nav li>a {
+        min-height: 50px;
+        max-width: 60px;
+    }
+
+    .sidebar, sidebar-wrapper {
+        max-width: 90px;
+    }
+
+    .sidebar .sidebar-wrapper, .off-canvas-sidebar .sidebar-wrapper {
+        width: 90px;
+    }
+
+    .sidebar[data-color="green"] .nav li.active a, .off-canvas-sidebar[data-color="green"] .nav li.active a {
+        min-height: 50px;
+        max-width: 60px;
+    }
+
+    .sidebar-wrapper .nav>li {
+        min-height: 50px;
+    }
+
+    .main-panel {
+        width: calc(100% - 90px);
+    }
+    .btn {
+        font-size: 14px;
+    }
+
+</style>
+
+<link href="__STATIC__/css/bootoast.css" rel="stylesheet" type="text/css">
+<style>
+    .row {
+        margin: 0;
+    }
+</style>
+<div class="wrapper">
+    {include file="admin/common/sidebar" /}
+
+    <div class="main-panel ps-container ps-theme-default ps-active-y">
+        {include file="admin/common/navbar" title="系统配置" /}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-content table-responsive">
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">邮件服务器</label>
+                                    <input id="input_email_server" class="form-control" name="email_server">
+                                    <span class="material-input"></span>
+                                    <span class="material-input"></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">邮箱账号</label>
+                                    <input id="input_email_account" class="form-control" name="email_account">
+                                    <span class="material-input"></span>
+                                    <span class="material-input"></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">邮箱密码</label>
+                                    <input id="input_email_password" class="form-control" name="email_password">
+                                    <span class="material-input"></span>
+                                    <span class="material-input"></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">发件人</label>
+                                    <input id="input_sender_email" type="email" class="form-control"
+                                           name="sender_email">
+                                    <span class="material-input"></span>
+                                    <span class="material-input"></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">二维码前缀</label>
+                                    <input id="input_qr_prefix" class="form-control" name="qr_prefix">
+                                    <span class="material-input"></span>
+                                    <span class="material-input"></span></div>
+                            </div>
+                            <div class="row" style="text-align: center">
+                                <button id="btn_submit" class="btn btn-success">
+                                    <i class="btn_icon iconfont icon-save"></i>保存
+                                    <div class="ripple-container"></div>
+                                </button>
+                                <button id="btn_reset" class="btn btn-info">
+                                    <i class="btn_icon iconfont icon-Reset"></i>重置
+                                    <div class="ripple-container"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/wow.min.js"></script>
+<script src="__STATIC__/js/material.min.js"></script>
+<script src="__STATIC__/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="__STATIC__/js/material-dashboard.js"></script>
+<script src="__STATIC__/js/bootstrap-notify.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+
+<script src="__STATIC__/js/bootoast.js"></script>
+<script>
+    var _email_server = "{$email_server}";
+    var _email_account = "{$email_account}";
+    var _email_password = "{$email_password}";
+    var _sender_email = "{$sender_email}";
+    var _qr_prefix = "{$qr_prefix}";
+    _email_server.trim();
+    _email_account.trim();
+    _email_password.trim();
+    _sender_email.trim();
+    _qr_prefix.trim();
+    if(_email_server != '') {
+        $('#input_email_server').parent().removeClass('is-empty');
+        $('#input_email_server').val(_email_server);
+    }
+
+    if(_email_account != '') {
+        $('#input_email_account').parent().removeClass('is-empty');
+        $('#input_email_account').val(_email_account);
+    }
+
+    if(_email_password != '') {
+        $('#input_email_password').parent().removeClass('is-empty');
+        $('#input_email_password').val(_email_password);
+    }
+
+    if(_sender_email != '') {
+        $('#input_sender_email').parent().removeClass('is-empty');
+        $('#input_sender_email').val(_sender_email);
+    }
+
+    if(_qr_prefix != '') {
+        $('#input_qr_prefix').parent().removeClass('is-empty');
+        $('#input_qr_prefix').val(_qr_prefix);
+    }
+
+    $('#btn_submit').click(function(){
+        $.post("{:url('xhrConfig')}", {
+            email_server:$('#input_email_server').val(),
+            email_account:$('#input_email_account').val(),
+            email_password :$('#input_email_password ').val(),
+            sender_email:$('#input_sender_email').val(),
+            qr_prefix:$('#input_qr_prefix').val(),
+        }, function(resp) {
+            if(resp.code == 200) {
+                Yuny.notify('success','配置保存成功');
+            } else {
+                Yuny.notify('danger', resp.msg);
+            }
+        })
+    });
+
+    $('#btn_reset').click(function(){
+        $('#input_email_server').val("{$email_server}").parent().removeClass('is-empty');
+        $('#input_email_account').val("{$email_account}").parent().removeClass('is-empty');
+        $('#input_email_password').val("{$email_password}").parent().removeClass('is-empty');
+        $('#input_sender_email').val("{$sender_email}").parent().removeClass('is-empty');
+        $('#input_qr_prefix').val("{$qr_prefix}").parent().removeClass('is-empty');
+    })
+
+</script>

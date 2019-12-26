@@ -1,0 +1,160 @@
+{include file="admin/common/header" title="用户列表" /}
+<body>
+<div class="wrapper">
+    {include file="admin/common/sidebar" /}
+    <div class="main-panel ps-container ps-theme-default ps-active-y">
+        {include file="admin/common/navbar" title="用户列表" /}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <button id="btn_edit" class="btn btn-success pull-right">New<div class="ripple-container"></div></button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-content table-responsive">
+
+                                <table class="table" style="text-align: center;">
+                                    <thead class="text-success">
+                                    <tr style="text-align:center"><th>No</th>
+                                        <th>账号</th>
+                                        <th>是否启用</th>
+                                        <!--<th>E-mail</th>-->
+                                        <!--<th>Role</th>-->
+                                        <!--<th>Enabled</th>-->
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="users" id="vo"}
+                                    <tr>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.account}</td>
+                                        <td>
+                                            {if condition="($vo.enabled == 1)"} 启用
+                                            {else /} 禁用
+                                            {/if}
+                                        </td>
+                                        <td data-itemId="{$vo.id}" data-loginName="{$vo.account}">
+                                            <button class="btn_edit_item btn btn-success btn-sm">编辑</button>
+                                            {if condition="($vo.id != $loginUserId)"}
+
+                                                {if condition="($vo.enabled == 1)"}
+                                            <button class="btn_enabled_item btn btn-danger btn-sm">
+                                                禁用
+                                            </button>
+                                                {else /}
+                                            <button class="btn_enabled_item btn btn-info btn-sm">
+                                                启用
+                                            </button>
+                                                {/if}
+                                            <button class="btn btn_delete_item btn-warning btn-sm">删除</button>
+                                            {/if}
+                                        </td>
+                                    </tr>
+                                    {/volist}
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dlgConfirm" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+                        </div>
+                        <div id="modal_content_text" class="modal-body">
+                            Continue to print?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                            <button id="btnDlgOk" type="button" class="btn btn-success">Print</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/wow.min.js"></script>
+<script src="__STATIC__/js/material.min.js"></script>
+<script src="__STATIC__/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="__STATIC__/js/material-dashboard.js"></script>
+<script src="__STATIC__/js/bootstrap-notify.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+
+<script>
+    var edit_type = 0;
+    var edit_button = null;
+
+    $('#btn_edit').click(function(){
+        window.location= 'user_edit?key=new';
+    })
+
+    $('.btn_edit_item').click(function(){
+        window.location= 'user_edit?key=' + $(this).parent().attr('data-itemId');
+    })
+
+    $('.btn_enabled_item').click(function(){
+        $('#modal_content_text').text($(this).text() + ' "' + $(this).parent().attr('data-loginName') + '"?');
+        $('#btnDlgOk').text($(this).text());
+
+        edit_type = 0;
+        edit_button = this;
+
+        $('#dlgConfirm').modal('show');
+    })
+
+    $('.btn_delete_item').click(function(){
+        $('#modal_content_text').text('Delete "' + $(this).parent().attr('data-loginName') + '"?');
+        $('#btnDlgOk').text('Delete');
+
+        edit_type = 1;
+        edit_button = this;
+
+        $('#dlgConfirm').modal('show');
+    })
+
+    // modal ok
+    $('#btnDlgOk').click(function(){
+        $('#dlgConfirm').modal('hide');
+
+        if(edit_type == 0) {
+            $.post("{:url('user_enable')}", {
+                    user_id: $(edit_button).parent().attr('data-itemId'),
+                    enable: $(edit_button).text().trim()
+                },
+                function(ret){
+                if(ret.code == 200) {
+                    Yuny.notify('success', $(edit_button).text() + ' success');
+                    window.location.reload();
+                } else {
+                    Yuny.notify('danger', ret.msg);
+                }
+            })
+        } else if(edit_type == 1) {
+            $.post("{:url('user_delete')}",
+                {user_id: $(edit_button).parent().attr('data-itemId')},
+                function(resp) {
+                if(resp.code == 200) {
+                    Yuny.notify('success', resp.msg);
+                    window.location.reload();
+                } else {
+                    Yuny.notify('danger', resp.msg);
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

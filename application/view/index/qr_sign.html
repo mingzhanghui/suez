@@ -1,0 +1,304 @@
+
+<!--
+/*!
+ * (C) 2018 Yuny Software
+ * http://www.yuny.top/
+ * Date: 2018-05-03
+ */
+ -->
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Suez MSDS Anti-Fake System">
+    <meta name="author" content="SUEZ WTS">
+
+    <title>苏伊士产品正品查询</title>
+
+    <link href="__STATIC__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/material-icons.min.css" rel="stylesheet">
+
+    <link href="__STATIC__/css/material-dashboard.css" rel="stylesheet">
+    <link href="__STATIC__/css/iconfont.css" rel="stylesheet">
+    <link href="__STATIC__/css/app.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: white;
+        }
+
+        @media (max-width: 480px), (max-width: 767px) {
+            .form-group .form-control {
+                width: 95%;
+            }
+        }
+    </style>
+
+    <link href="__STATIC__/css/bootoast.css" rel="stylesheet" type="text/css">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: -webkit-box;
+            -ms-flex-align: center;
+            -ms-flex-pack: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .text-center {
+            text-align: center!important;
+        }
+
+        .nowrap {
+            white-space:nowrap;
+        }
+        .login_title {
+            font-size: 25px;
+            color: gray;
+        }
+
+        .margin-t20 {
+            margin-top: 20px;
+        }
+
+        .row_icon {
+            position: absolute;
+            margin-left: -35px;
+            margin-top: -30px;
+            font-size: 30px;
+            color: #398439;
+        }
+
+        .need_input {
+            position: absolute;
+            right: 5px;
+            margin-top: -25px;
+            font-size: 18px;
+            color: red;
+        }
+
+        .row_input {
+            margin-left: 50px;
+            margin-top: 15px;
+        }
+
+        .row_input_verify {
+            margin-right: 120px;
+        }
+
+        #btn_verify {
+            position: absolute;
+            right: -120px;
+            margin-top: -40px;
+            width:120px;
+        }
+
+        #div_error {
+            color: red;
+            font-size: 20px;
+        }
+
+        .only_2_verify {
+            color: #ffaa00;
+            font-size: 16px;
+        }
+    </style>
+
+    <link rel="icon" href="__STATIC__/favicon.ico">
+</head>
+<body>
+<div class="form-signin text-center">
+    <div class="container-fluid">
+        <img class="" src="__STATIC__/image/suez_small.jpg" alt="" height="72">
+        <h3 class="nowrap" style="margin-top: 2px;">感谢您使用苏伊士产品</h3>
+        <div id="div_error"></div>
+        <div class="row" style="text-align: left">
+            <div class="form-group label-floating is-empty row_input">
+                <input id="input_seller" class="form-control" placeholder="销售方：XXX有限公司">
+                <span class="material-input"></span>
+                <i class="iconfont icon-gongsi row_icon"></i>
+                <span class="need_input">*</span>
+            </div>
+        </div>
+        <div class="row" style="text-align: left">
+            <div class="form-group label-floating is-empty row_input">
+                <input id="input_company" class="form-control" placeholder="公司名：XXX有限公司">
+                <span class="material-input"></span>
+                <i class="iconfont icon-caidaniconwodehui row_icon"></i>
+            </div>
+        </div>
+        <div class="row" style="text-align: left">
+            <div class="form-group label-floating is-empty row_input">
+                <input id="input_phone" class="form-control" placeholder="手机号：">
+                <span class="material-input"></span>
+                <i class="iconfont icon-phone row_icon"></i>
+                <span class="need_input">*</span>
+            </div>
+        </div>
+        <div class="row" style="text-align: left">
+            <div class="form-group label-floating is-empty row_input row_input_verify">
+                <input id="input_verify_code" class="form-control" placeholder="验证码：1分钟内有效">
+                <span class="material-input"></span>
+                <i class="iconfont icon-ecurityCode row_icon"></i>
+                <button id="btn_verify" class="btn btn-success">获取验证码</button>
+                <span class="need_input">*</span>
+            </div>
+        </div>
+        <button id="btn_submit" class="btn btn-success btn-block">获取信息</button>
+        <div class="row">
+            <p class="only_2_verify">此标签仅限2次验证，请谨慎使用</p>
+            <p>苏伊士水务技术与方案</p>
+        </div>
+    </div>
+
+</div>
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/js/wow.min.js"></script>
+<script src="__STATIC__/js/material.min.js"></script>
+<script src="__STATIC__/js/perfect-scrollbar.jquery.min.js"></script>
+<script src="__STATIC__/js/material-dashboard.js"></script>
+<script src="__STATIC__/js/bootstrap-notify.js"></script>
+<script src="__STATIC__/js/app.js"></script>
+
+<script src="__STATIC__/js/bootoast.js"></script>
+<script>
+    var vInterval = 0;
+    var nCount = 60;
+    // button verify
+    $('#btn_verify').click(function(){
+        var _key = Yuny.getUrlParam('key');
+        var _error = $('#div_error').text();
+        if(_error != '')
+        {
+            Yuny.notify('danger',_error);
+            return;
+        }
+
+        var _phone = $('#input_phone').val();
+        _phone.trim();
+        if(_phone == '')
+        {
+            Yuny.notify('danger','手机号码不能为空');
+            return;
+        }
+        $('#btn_verify').addClass('disabled');
+        nCount = 60;
+        $('#btn_verify').text('剩余' + nCount + '秒');
+        // interval
+        vInterval = setInterval(function(){
+            nCount--;
+            if(nCount == 0)
+            {
+                $('#btn_verify').removeClass('disabled');
+                clearInterval(vInterval);
+                vInterval = 0;
+                $('#btn_verify').text('获取验证码');
+            }
+            else
+            {
+                $('#btn_verify').text('剩余' + nCount + '秒');
+            }
+        },1000);
+
+        // send sms
+        $.post('__STATIC__/send_verify_code', {key: _key, phone:_phone}, function(ret){
+            ret = JSON.parse(ret);
+            if(ret.return == 0)
+            {
+
+            }
+            else
+            {
+                Yuny.notify('danger', ret.error);
+
+                $('#btn_verify').removeClass('disabled');
+                clearInterval(vInterval);
+                vInterval = 0;
+                $('#btn_verify').text('获取验证码');
+            }
+        })
+    })
+
+    // button submit
+    $('#btn_submit').click(function(){
+        var _key = Yuny.getUrlParam('key');
+        var _seller = $('#input_seller').val();
+        var _company = $('#input_company').val();
+        var _phone = $('#input_phone').val();
+        var _verify_code = $('#input_verify_code').val();
+
+        if(_seller == '')
+        {
+            Yuny.notify('danger', '&quot;销售方&quot;不能为空');
+            return;
+        }
+
+        if(_phone == '')
+        {
+            Yuny.notify('danger', '&quot;手机号&quot;不能为空');
+            return;
+        }
+
+        if(_verify_code == '')
+        {
+            Yuny.notify('danger', '&quot;验证码&quot;不能为空');
+            return;
+        }
+
+        $.post('__STATIC__/qr_sign', {key: _key, seller: _seller, company: _company, phone: _phone, verify_code: _verify_code},
+            function(ret){
+                ret = JSON.parse(ret);
+                if(ret.return == 0)
+                {
+                    window.location = "/qr_query?&token=" + ret.token;
+                }
+                else
+                {
+                    Yuny.notify('danger', ret.error);
+                    $('#div_error').text(ret.error);
+                }
+            })
+    })
+</script>
+</body>
+</html>
